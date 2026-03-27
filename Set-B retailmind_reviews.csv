@@ -1,0 +1,41 @@
+review_id,product_id,reviewer_name,rating,review_title,review_text,verified_purchase,helpful_votes,review_date
+1,SC001,Rahul,5,Perfect office wear,Absolutely love this shirt! The fabric is crisp and comfortable. Fits perfectly for office meetings. Great stitching quality. Will buy in more colours.,TRUE,12,15-11-2024
+2,SC001,Meena,4,"Good quality, slightly stiff initially",Nice shirt overall. The material is a bit stiff initially but softens after 2 washes. The white colour is bright and clean. Good value for money.,TRUE,5,22-10-2024
+3,SC001,Vikram,4,Great fit for slim builds,Bought the M size and it fits well. The buttons are sturdy. Would appreciate more size options. Overall a solid purchase.,FALSE,3,08-01-2025
+4,SC002,Ananya,2,Colour faded after washing,Disappointed with the quality. The stripes started fading after just two washes. The fabric is thin and see-through. Not worth the price.,TRUE,18,14-09-2024
+5,SC002,Priya,3,Okay for the price,Decent crop top. The fit runs small so size up. Colour is vibrant initially. Machine wash separately or it will bleed. Average quality.,TRUE,7,03-12-2024
+6,SC004,Kavya,2,Print not matching website images,The actual print colours are very different from the product photos. Much darker and the pattern looks off. Returned immediately.,TRUE,14,20-01-2025
+7,SC004,Deepika,3,Fabric okay but sizing off,The kurti is comfortable but the sizing is not consistent with standard measurements. Had to exchange twice.,TRUE,6,30-11-2024
+8,SC007,Sneha,4,Beautiful dress for summer events,Wore this to a garden party and got so many compliments! The floral pattern is gorgeous. Flows beautifully. Slightly pricey but worth it.,TRUE,22,14-02-2025
+9,SC007,Tanya,5,My favourite summer buy,"Perfect fit, beautiful fabric. This dress is exactly what I was looking for. Comfortable for all-day wear.",TRUE,15,05-01-2025
+10,SC007,Aisha,3,Nice but needs ironing constantly,Lovely dress but the material wrinkles very easily. You need to iron it before every wear which is inconvenient. Good print though.,TRUE,4,18-10-2024
+11,SC010,Ravi,2,"Delivery damaged, poor packaging",Received the dress with a small tear near the pocket. Packaging was careless. Refund was processed but the experience was bad.,TRUE,11,28-12-2024
+12,SC010,Sonal,2,Material cheaper than expected,The product looks much better in photos. In person the fabric feels flimsy and the buttons look cheap. Returning this.,TRUE,8,01-02-2025
+13,SC011,Ritika,5,"Stunning dress, absolute showstopper",Wore this to a wedding reception and turned heads! The velvet is rich and luxurious. The fit is flattering. Worth every rupee.,TRUE,31,01-03-2025
+14,SC011,Pooja,5,"Exactly as pictured, premium quality","High quality velvet, beautiful colour, excellent stitching. Fits true to size. This is a statement piece.",TRUE,19,10-02-2025
+15,SC011,Manish,4,Great but dry clean only,Gorgeous dress. One downside is that it can only be dry cleaned which adds to the cost of ownership. Otherwise perfect.,FALSE,7,15-12-2024
+16,SC012,Harsh,4,"Good fit, durable denim",These jeans are great for everyday wear. The denim is thick and doesn't stretch out. True to size. Good colour options.,TRUE,13,25-01-2025
+17,SC012,Sameer,3,Button fly is inconvenient,Jeans are good quality but the button fly takes getting used to. The rise is indeed high which is good. Fabric is solid.,TRUE,5,08-11-2024
+18,SC013,Kavya,4,Comfortable and stylish,Love these palazzos! Very comfortable for long days. The print is vibrant. Gets a bit wrinkled but irons out easily.,TRUE,9,20-02-2025
+19,SC017,Ananya,5,Best leggings I have bought,"These leggings are amazing for yoga and workouts. Great compression, no see-through issues. Stays in place during any movement. Highly recommend.",TRUE,35,05-03-2025
+20,SC017,Deepika,5,Perfect fit and very comfortable,Bought three pairs. The fabric is soft yet sturdy. Doesn't fade or lose shape after multiple washes. Great value.,TRUE,27,28-02-2025
+21,SC017,Priya,2,Waistband rolls down during exercise,Good fabric but the waistband keeps rolling down during intense workouts. This is a design flaw that needs fixing.,TRUE,19,10-01-2025
+22,SC018,Rahul,5,Classic and timeless,"This trench coat is investment dressing. Beautiful quality, perfect length, and genuinely keeps you warm. Worth every rupee.",TRUE,16,20-12-2024
+23,SC018,Meena,4,Good quality but runs large,Beautifully made coat. However the sizing runs about one size large. Recommend sizing down. Quality of fabric is excellent.,TRUE,8,15-01-2025
+24,SC020,Vikram,4,Great distressed look,"Love the aesthetic of this jacket. The distressing looks natural, not fake. Fits well. Good quality denim.",TRUE,12,18-02-2025
+25,SC021,Sonal,5,"Extremely warm, perfect for winters",This puffer coat is fantastic! Incredibly warm without being bulky. Great for Delhi winters. Packable design is a bonus.,TRUE,21,01-03-2025
+26,SC024,Ritika,4,Sturdy and spacious,Love this tote for work. Fits my laptop plus all my essentials. The structure holds up well even when full. Good quality handles.,TRUE,14,28-01-2025
+27,SC024,Tanya,3,Good bag but zipper feels cheap,Nice design and good capacity. However the zipper feels flimsy and I worry about its longevity. The outer material is great though.,TRUE,6,10-12-2024
+28,SC025,Aisha,2,Embellishments fell off after one use,The clutch looked beautiful in photos but the embellishments started falling off after the first use. Poor durability. Very disappointed.,TRUE,22,05-02-2025
+29,SC025,Pooja,2,Clasp broken on arrival,Received the clutch with a broken clasp. Had to use it held shut manually at an event. Terrible quality control.,TRUE,17,22-01-2025
+30,SC027,Kavya,5,"Beautiful earrings, great quality gold",These hoops are gorgeous! The gold colour is rich and has not tarnished even after 3 months of regular wear. Lightweight.,TRUE,45,02-03-2025
+31,SC027,Sneha,5,Perfect everyday earrings,"Bought as a gift and everyone loved them. Classic design, comfortable to wear all day. Great price for the quality.",FALSE,31,25-02-2025
+32,SC027,Manish,4,Nice gift option,"Bought for my wife. She loves them. Good quality, nice packaging. Only wish they came in a few more sizes.",FALSE,14,14-01-2025
+33,SC003,Sameer,5,Sharp professional look,"This blazer is exactly what I needed for client meetings. Sharp cut, good fabric, holds its shape well. Pair with trousers or jeans.",TRUE,17,05-12-2024
+34,SC003,Harsh,4,"Good quality, limited size range",Great blazer but the size range could be broader. The fabric quality is excellent and the stitching is clean.,TRUE,8,22-11-2024
+35,SC030,Vikram,4,Warm and stylish,Perfect winter beanie. Keeps my head very warm during morning runs. The knit pattern is nice. Stretches to fit well.,TRUE,11,16-02-2025
+36,SC030,Ananya,4,Good quality wool,"Nice beanie, good thickness. Not the most stylish design but very functional and warm. Happy with the purchase.",TRUE,7,30-01-2025
+37,SC006,Priya,5,"Stunning embroidery, festival perfect",The embroidery work on this blouse is absolutely beautiful. Wore it for Diwali and received so many compliments. Premium finish.,TRUE,28,03-03-2025
+38,SC006,Ritika,5,Worth every rupee,Exceptional quality. The embroidery is detailed and doesn't come loose. Washes well if done gently by hand. A staple ethnic piece.,TRUE,19,22-02-2025
+39,SC022,Harsh,3,Good but not waterproof as claimed,The windbreaker is decent but it is NOT waterproof despite what the listing implies. Light drizzle is fine but heavy rain and you will get wet.,TRUE,14,18-01-2025
+40,SC022,Sameer,4,Great for cycling and morning walks,Very lightweight and packable. Good wind resistance. Color choices are great. Perfect for outdoor activities in mild weather.,TRUE,9,28-12-2024

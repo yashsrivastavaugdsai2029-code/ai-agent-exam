@@ -1,7 +1,6 @@
 streamlit>=1.32.0
 langchain>=0.1.0
 langchain-google-genai>=1.0.0
-langchain-experimental>=0.0.54
+google-generativeai>=0.5.0
 pandas>=2.0.0
 python-dotenv>=1.0.0
-tabulate>=0.9.0

@@ -1,80 +1,200 @@
-# ShopEasy Support Ticket Analyzer
+# RetailMind Analytics — StyleCraft Product Intelligence Agent
 
-An AI-powered Streamlit app for analyzing customer support tickets at ShopEasy. Powered by a LangChain agent and Google Gemini, it lets you ask natural-language questions about ticket trends, resolution performance, and agent effectiveness.
+An AI-powered Streamlit application built for **RetailMind Analytics** to serve **StyleCraft**, a D2C fashion brand with 80+ SKUs across 5 categories. The agent analyses inventory health, pricing margins, customer reviews, and catalog performance using Google Gemini 2.0 Flash via LangChain.
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      app.py  (Streamlit UI)             │
+│  Sidebar: API key · Category filter · Catalog summary   │
+│  Main: Daily briefing · Chat interface · History        │
+└──────────────────────┬──────────────────────────────────┘
+                       │ user query
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│                     agent.py  (Router)                  │
+│                                                         │
+│  1. classify_intent(query, llm)                         │
+│     LLM classifies into: INVENTORY · PRICING ·          │
+│     REVIEWS · CATALOG · GENERAL                         │
+│                                                         │
+│  2. Dispatch to tool(s) based on intent                 │
+│     (LLM also extracts product_id / category)           │
+│                                                         │
+│  3. LLM synthesises final response with tool context    │
+└──────────────────────┬──────────────────────────────────┘
+                       │ tool calls
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│                     tools.py  (6 Tool Functions)        │
+│                                                         │
+│  search_products()          get_inventory_health()      │
+│  get_pricing_analysis()     get_review_insights()       │
+│  get_category_performance() generate_restock_alert()    │
+└─────────────────────────────────────────────────────────┘
+                       │ reads
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│  Set-B retailmind_products.csv  (30 SKUs)               │
+│  Set-B retailmind_reviews.csv   (40 reviews)            │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Router Pattern
+
+Intent classification uses the LLM — **not** keyword matching. The agent sends the user's raw query to Gemini and asks it to classify into one of five buckets:
+
+| Intent | Triggers | Tools called |
+|--------|----------|--------------|
+| INVENTORY | stock levels, stockout, reorder | `get_inventory_health`, `generate_restock_alert` |
+| PRICING | margins, profitability, cost | `get_pricing_analysis` |
+| REVIEWS | feedback, ratings, sentiment | `get_review_insights` |
+| CATALOG | product search, category overview | `search_products`, `get_category_performance` |
+| GENERAL | greetings, meta questions | LLM knowledge only |
+
+---
+
+## Tool Functions
+
+| # | Function | Description |
+|---|----------|-------------|
+| 1 | `search_products(query, category)` | Text search across product catalog; returns top 5 matches |
+| 2 | `get_inventory_health(product_id)` | Days-to-stockout, Critical/Low/Healthy flag |
+| 3 | `get_pricing_analysis(product_id)` | Gross margin %, price positioning, margin warning |
+| 4 | `get_review_insights(product_id)` | LLM-summarised sentiment, top themes |
+| 5 | `get_category_performance(category)` | Aggregated SKU/rating/margin/stock stats |
+| 6 | `generate_restock_alert(threshold_days)` | All at-risk products sorted by urgency + revenue at risk |
+
+---
+
+## Daily Briefing
+
+Generated automatically when the app loads (or after "Clear Chat"):
+
+- **📦 Stock Alerts** — Top 3 critically low-stock products with days-to-stockout and ₹ revenue at risk
+- **⭐ Quality Watch** — Worst-rated product with a one-line unhappiness reason from reviews
+- **💰 Pricing Alert** — Product with the lowest gross margin (if below 25%) with a suggested action
+
+---
 
 ## Setup
 
-### 1. Install dependencies
+### 1. Clone / enter the project directory
+
+```bash
+cd ai-agent-exam
+```
+
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Add your API key
-
-Copy `.env.example` to `.env` and add your Google Gemini API key:
+### 3. Configure your API key
 
 ```bash
 cp .env.example .env
 ```
 
 Edit `.env`:
+
 ```
-GOOGLE_API_KEY=your_actual_api_key_here
+GOOGLE_API_KEY=AIza...your_key_here
 ```
 
-Get a free API key at: https://aistudio.google.com/app/apikey
+Get a free key at: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
 
-### 3. Run the app
+### 4. Run the app
 
 ```bash
+python run.py
+# or
+python start.py
+# or directly
 streamlit run app.py
 ```
 
 The app opens at `http://localhost:8501`.
 
-## Usage
+---
 
-1. Enter your Google API key in the sidebar (or set it in `.env`)
-2. Upload `support_tickets.csv` (included in this repo)
-3. Ask questions in the chat, for example:
-   - "What is the most common complaint category?"
-   - "What is the average resolution time by priority?"
-   - "Which agent has the best satisfaction score?"
-   - "How many tickets are currently pending?"
-   - "Show monthly ticket trends"
+## Datasets
 
-## Dataset
-
-`support_tickets.csv` contains 30 rows of ShopEasy customer support tickets with the following columns:
+### `Set-B retailmind_products.csv` — 30 rows
 
 | Column | Description |
 |--------|-------------|
-| Ticket_ID | Unique ticket identifier |
-| Date | Date ticket was created |
-| Customer_Name | Name of the customer |
-| Category | Complaint type: Delivery Delay, Product Defect, Refund Request, Account Issue, Payment Failed |
-| Priority | Low, Medium, High, or Critical |
-| Resolution_Time_Hours | Hours taken to resolve the ticket |
-| Satisfaction_Score | Customer rating from 1 (worst) to 5 (best) |
-| Status | Resolved, Pending, or Escalated |
-| Agent_Name | Support agent who handled the ticket |
+| product_id | Unique SKU (SC001–SC030) |
+| product_name | Product display name |
+| category | Tops / Dresses / Bottoms / Outerwear / Accessories |
+| price | Selling price (₹) |
+| cost | Unit cost (₹) |
+| stock_quantity | Current units in warehouse |
+| avg_daily_sales | Average units sold per day |
+| return_rate | Fraction returned (0–1) |
+| avg_rating | Average customer rating (1–5) |
+| review_count | Total number of reviews |
+| launch_date | Product launch date |
+| reorder_level | Minimum stock threshold |
+
+### `Set-B retailmind_reviews.csv` — 40 rows
+
+| Column | Description |
+|--------|-------------|
+| review_id | Unique review ID |
+| product_id | Links to products CSV |
+| reviewer_name | Customer name |
+| rating | 1–5 star rating |
+| review_title | Short title |
+| review_text | Full review body |
+| verified_purchase | TRUE / FALSE |
+| helpful_votes | Community upvotes |
+| review_date | Date of review |
+
+---
 
 ## Project Structure
 
 ```
 ai-agent-exam/
-├── app.py                # Main Streamlit application
-├── requirements.txt      # Python dependencies
-├── .env.example          # Environment variable template
-├── support_tickets.csv   # ShopEasy customer support dataset
-└── README.md             # This file
+├── app.py                            # Streamlit UI
+├── agent.py                          # LLM router + response synthesis
+├── tools.py                          # 6 tool functions
+├── run.py                            # Entry point (python run.py)
+├── start.py                          # Alternate entry point
+├── Set-B retailmind_products.csv     # Products dataset (30 SKUs)
+├── Set-B retailmind_reviews.csv      # Reviews dataset (40 reviews)
+├── requirements.txt                  # Python dependencies
+├── .env                              # Your secrets (git-ignored)
+├── .env.example                      # Template for .env
+├── .gitignore                        # Excludes .env, __pycache__, etc.
+└── README.md                         # This file
 ```
+
+---
 
 ## Tech Stack
 
-- **Streamlit** — UI framework
-- **LangChain** — Agent orchestration
-- **Google Gemini 2.0 Flash** — LLM powering the agent
-- **Pandas** — Data manipulation
-- **langchain-experimental** — Pandas DataFrame agent
+| Library | Role |
+|---------|------|
+| **Streamlit** | Web UI framework |
+| **LangChain** | Agent orchestration, message history |
+| **langchain-google-genai** | Gemini 2.0 Flash integration |
+| **google-generativeai** | Google AI SDK |
+| **Pandas** | CSV loading and data analysis |
+| **python-dotenv** | `.env` file management |
+
+---
+
+## Example Queries
+
+- `"Which products are about to run out of stock?"`
+- `"What is the gross margin for SC018?"`
+- `"Why are customers unhappy with SC010?"`
+- `"Show me all Dresses and their performance"`
+- `"Which products in Tops have low inventory?"`
+- `"Give me a pricing overview — which products have poor margins?"`
