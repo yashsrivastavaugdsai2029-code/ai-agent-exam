@@ -9,8 +9,8 @@ Architecture:
 
 import json
 
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.schema import AIMessage, HumanMessage
+from langchain_groq import ChatGroq
+from langchain_core.messages import AIMessage, HumanMessage
 
 from tools import (
     generate_restock_alert,
@@ -36,7 +36,7 @@ SYSTEM_PERSONA = (
 
 
 # ── Step 1: LLM-based intent classification ──────────────────────────────────
-def classify_intent(query: str, llm: ChatGoogleGenerativeAI) -> str:
+def classify_intent(query: str, llm: ChatGroq) -> str:
     """
     Uses the LLM to classify the user query into one of 5 intent buckets.
     Returns a string from VALID_INTENTS; falls back to 'GENERAL' on failure.
@@ -59,7 +59,7 @@ def classify_intent(query: str, llm: ChatGoogleGenerativeAI) -> str:
 
 
 # ── Step 2: Helper — extract product ID from free text ───────────────────────
-def _extract_product_id(query: str, llm: ChatGoogleGenerativeAI) -> str | None:
+def _extract_product_id(query: str, llm: ChatGroq) -> str | None:
     """
     Asks the LLM to extract a product ID (e.g. SC001) from the query.
     Returns the ID string or None.
@@ -81,7 +81,7 @@ def _extract_product_id(query: str, llm: ChatGoogleGenerativeAI) -> str | None:
 
 
 # ── Step 3: Helper — detect category from query ──────────────────────────────
-def _extract_category(query: str, llm: ChatGoogleGenerativeAI) -> str | None:
+def _extract_category(query: str, llm: ChatGroq) -> str | None:
     """
     Asks the LLM whether the query targets a specific category.
     Returns the category name or None.
@@ -103,7 +103,7 @@ def _extract_category(query: str, llm: ChatGoogleGenerativeAI) -> str | None:
 
 
 # ── Step 4: Router dispatch ──────────────────────────────────────────────────
-def _handle_inventory(query: str, llm: ChatGoogleGenerativeAI) -> str:
+def _handle_inventory(query: str, llm: ChatGroq) -> str:
     product_id = _extract_product_id(query, llm)
     if product_id:
         data = get_inventory_health(product_id)
@@ -112,7 +112,7 @@ def _handle_inventory(query: str, llm: ChatGoogleGenerativeAI) -> str:
     return f"**Inventory Data:**\n```json\n{json.dumps(data, indent=2)}\n```"
 
 
-def _handle_pricing(query: str, llm: ChatGoogleGenerativeAI) -> str:
+def _handle_pricing(query: str, llm: ChatGroq) -> str:
     product_id = _extract_product_id(query, llm)
     if product_id:
         data = get_pricing_analysis(product_id)
@@ -136,7 +136,7 @@ def _handle_pricing(query: str, llm: ChatGoogleGenerativeAI) -> str:
     return f"**Pricing Data:**\n```json\n{json.dumps(data, indent=2)}\n```"
 
 
-def _handle_reviews(query: str, llm: ChatGoogleGenerativeAI) -> str:
+def _handle_reviews(query: str, llm: ChatGroq) -> str:
     product_id = _extract_product_id(query, llm)
     if product_id:
         data = get_review_insights(product_id, llm)
@@ -152,7 +152,7 @@ def _handle_reviews(query: str, llm: ChatGoogleGenerativeAI) -> str:
     return f"**Review Data:**\n```json\n{json.dumps(data, indent=2)}\n```"
 
 
-def _handle_catalog(query: str, llm: ChatGoogleGenerativeAI, sidebar_category: str = None) -> str:
+def _handle_catalog(query: str, llm: ChatGroq, sidebar_category: str = None) -> str:
     category = _extract_category(query, llm) or sidebar_category
     if category and category.lower() != "all":
         data = get_category_performance(category)
@@ -166,7 +166,7 @@ def _handle_catalog(query: str, llm: ChatGoogleGenerativeAI, sidebar_category: s
 def run_agent(
     query: str,
     chat_history: list[dict],
-    llm: ChatGoogleGenerativeAI,
+    llm: ChatGroq,
     sidebar_category: str = "All",
 ) -> str:
     """
@@ -226,7 +226,7 @@ def run_agent(
 
 
 # ── Daily Briefing generator ─────────────────────────────────────────────────
-def generate_daily_briefing(llm: ChatGoogleGenerativeAI) -> str:
+def generate_daily_briefing(llm: ChatGroq) -> str:
     """
     Auto-generates a daily intelligence briefing covering:
       - Top 3 critically low-stock products

@@ -1,6 +1,6 @@
 # RetailMind Analytics — StyleCraft Product Intelligence Agent
 
-An AI-powered Streamlit application built for **RetailMind Analytics** to serve **StyleCraft**, a D2C fashion brand with 80+ SKUs across 5 categories. The agent analyses inventory health, pricing margins, customer reviews, and catalog performance using Google Gemini 2.0 Flash via LangChain.
+An AI-powered Streamlit application built for **RetailMind Analytics** to serve **StyleCraft**, a D2C fashion brand with 80+ SKUs across 5 categories. The agent analyses inventory health, pricing margins, customer reviews, and catalog performance using Groq (Llama 3.1 8B Instant) via LangChain.
 
 ---
 
@@ -45,7 +45,7 @@ An AI-powered Streamlit application built for **RetailMind Analytics** to serve 
 
 ### Router Pattern
 
-Intent classification uses the LLM — **not** keyword matching. The agent sends the user's raw query to Gemini and asks it to classify into one of five buckets:
+Intent classification uses the LLM — **not** keyword matching. The agent sends the user's raw query to Groq and asks it to classify into one of five buckets:
 
 | Intent | Triggers | Tools called |
 |--------|----------|--------------|
@@ -103,10 +103,10 @@ cp .env.example .env
 Edit `.env`:
 
 ```
-GOOGLE_API_KEY=AIza...your_key_here
+GROQ_API_KEY=gsk_...your_key_here
 ```
 
-Get a free key at: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+Get a free key at: [https://console.groq.com/keys](https://console.groq.com/keys)
 
 ### 4. Run the app
 
@@ -183,8 +183,7 @@ ai-agent-exam/
 |---------|------|
 | **Streamlit** | Web UI framework |
 | **LangChain** | Agent orchestration, message history |
-| **langchain-google-genai** | Gemini 2.0 Flash integration |
-| **google-generativeai** | Google AI SDK |
+| **langchain-groq** | Groq Llama 3.1 8B Instant integration |
 | **Pandas** | CSV loading and data analysis |
 | **python-dotenv** | `.env` file management |
 

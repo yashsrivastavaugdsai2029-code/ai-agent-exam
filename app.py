@@ -2,7 +2,7 @@
 app.py — RetailMind Analytics: Streamlit UI for StyleCraft Product Intelligence.
 
 Layout:
-  • Sidebar  : Google API key input, category filter, catalog summary panel,
+  • Sidebar  : Groq API key input, category filter, catalog summary panel,
                clear-chat button.
   • Main area: Auto-generated daily briefing on load, then chat interface
                with full conversation history and multi-turn memory.
@@ -12,7 +12,7 @@ import os
 
 import streamlit as st
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 from agent import generate_daily_briefing, run_agent
 from tools import generate_restock_alert, load_products
@@ -29,11 +29,11 @@ st.set_page_config(
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
-def get_llm(api_key: str) -> ChatGoogleGenerativeAI:
-    """Instantiate and cache the Gemini LLM for a given API key."""
-    return ChatGoogleGenerativeAI(
-        model="gemini-2.0-flash",
-        google_api_key=api_key,
+def get_llm(api_key: str) -> ChatGroq:
+    """Instantiate and cache the Groq LLM for a given API key."""
+    return ChatGroq(
+        model="llama-3.1-8b-instant",
+        groq_api_key=api_key,
         temperature=0.3,
     )
 
@@ -73,11 +73,11 @@ with st.sidebar:
     # ── API key input ─────────────────────────────────────────────────────────
     st.subheader("🔑 Authentication")
     api_key = st.text_input(
-        "Google API Key",
-        value=os.getenv("GOOGLE_API_KEY", ""),
+        "Groq API Key",
+        value=os.getenv("GROQ_API_KEY", ""),
         type="password",
-        placeholder="AIza…",
-        help="Get your key at https://aistudio.google.com/app/apikey",
+        placeholder="gsk_…",
+        help="Get your key at https://console.groq.com/keys",
     )
 
     st.divider()
@@ -129,7 +129,7 @@ st.caption(
 # ── Gate on API key ───────────────────────────────────────────────────────────
 if not api_key:
     st.warning(
-        "⚠️ Please enter your **Google API Key** in the sidebar to get started.",
+        "⚠️ Please enter your **Groq API Key** in the sidebar to get started.",
         icon="🔑",
     )
     st.stop()
@@ -137,7 +137,7 @@ if not api_key:
 try:
     llm = get_llm(api_key)
 except Exception as err:
-    st.error(f"Failed to initialise Gemini LLM: {err}")
+    st.error(f"Failed to initialise Groq LLM: {err}")
     st.stop()
 
 
